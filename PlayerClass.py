@@ -131,5 +131,7 @@ class MoveState(BrainStateMachine.IState):
 			self.player.set_x(self.x_change)
 			self.player.set_y(self.y_change)
 
+			#awesome
+
 
 
