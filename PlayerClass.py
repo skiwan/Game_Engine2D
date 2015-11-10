@@ -11,7 +11,7 @@ class Player(Character.Character):
 	""" This Will create a Player"""
 	def __init__(self):
 		#stats of the character
-		self.movementSpeed = 1
+		self.movementSpeed = 5
 
 		#variables that are not stats
 		self.spriteSheet = pygame.image.load("charspritesheet.png") 
@@ -27,7 +27,10 @@ class Player(Character.Character):
 
 		#animations of this Character
 		self.IdleAnimation = AnimationDataClass.animation(0,40,40,3,2)
-		
+		self.MoveLeftAnimation = AnimationDataClass.animation(1,40,40,4,3)
+		self.MoveRightAnimation = AnimationDataClass.animation(2,40,40,4,3)
+		self.MoveUpAnimation = AnimationDataClass.animation(3,40,40,4,3)
+		self.MoveDownAnimation = AnimationDataClass.animation(4,40,40,4,3)
 		#States of the chracter
 		self.nonState = IdleState()
 		self.moveState = MoveState()
@@ -67,18 +70,22 @@ class IdleState(BrainStateMachine.IState):
 				if event.key == pygame.K_DOWN:
 					self.player.moveState.y_change = 1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)
+					self.player.characterAnimationHandler.changeAnimation(self.player.MoveDownAnimation)
 				
 				if event.key == pygame.K_UP: 
 					self.player.moveState.y_change = -1 * self.player.movementSpeed
-					self.player.brain.Change(self.player.moveState)				
+					self.player.brain.Change(self.player.moveState)	
+					self.player.characterAnimationHandler.changeAnimation(self.player.MoveUpAnimation)			
 				
 				if event.key == pygame.K_RIGHT:
 					self.player.moveState.x_change = 1 * self.player.movementSpeed
-					self.player.brain.Change(self.player.moveState)				
+					self.player.brain.Change(self.player.moveState)
+					self.player.characterAnimationHandler.changeAnimation(self.player.MoveRightAnimation)				
 				
 				if event.key == pygame.K_LEFT: 
 					self.player.moveState.x_change = -1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)
+					self.player.characterAnimationHandler.changeAnimation(self.player.MoveLeftAnimation)
 					
 					
 class MoveState(BrainStateMachine.IState):
@@ -121,6 +128,7 @@ class MoveState(BrainStateMachine.IState):
 		
 		if ((self.y_change == 0) and (self.x_change == 0)):
 			self.player.brain.Change(self.player.nonState)
+			self.player.characterAnimationHandler.changeAnimation(self.player.IdleAnimation)#set the current animation
 		else:
 			self.player.set_x(self.x_change)
 			self.player.set_y(self.y_change)

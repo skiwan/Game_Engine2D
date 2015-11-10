@@ -10,3 +10,4 @@ git checkout
 git push name vom branch (GE2D)
 git pull
 git fetch
+git diff HEAD~1
