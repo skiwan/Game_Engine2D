@@ -7,6 +7,6 @@ git branch
 git remote
 git commit
 git checkout
-git push
+git push name vom branch (GE2D)
 git pull
 git fetch

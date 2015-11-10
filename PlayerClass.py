@@ -13,7 +13,7 @@ class Player(Character.Character):
 		#stats of the character
 		self.movementSpeed = 1
 
-
+		#variables that are not stats
 		self.spriteSheet = pygame.image.load("charspritesheet.png") 
 		self.x = 40#starting positions
 		self.y = 40
@@ -30,8 +30,9 @@ class Player(Character.Character):
 		
 		#States of the chracter
 		self.nonState = IdleState()
-		self.moveState = MoveState() 
-		self.down = False
+		self.moveState = MoveState()
+
+		#set brain and animation 
 		self.characterAnimationHandler.changeAnimation(self.IdleAnimation)#set the current animation
 		self.brain.Change(self.nonState)
 
@@ -45,15 +46,15 @@ class Player(Character.Character):
 	def set_x(self,wert):
 		self.x += wert
 
-	def Render(self,destinationScreen):
+	def Render(self,destinationScreen,camera):
 		self.characterImage = self.characterAnimationHandler.ImageReturn()#get the image of the current animation
-		destinationScreen.blit(self.characterImage , (self.x,self.y))#buffer it
+		destinationScreen.blit(self.characterImage , (self.x-camera.x,self.y-camera.y))#buffer it
 
 	def Update(self):
 		self.PlayerInputHandler.Update()
-		self.PlayerInput = self.PlayerInputHandler.returnEvents()
-		self.characterAnimationHandler.Update()#update the animation handler, later the state must be updated here too
-		self.brain.Update(self)
+		self.PlayerInput = self.PlayerInputHandler.returnEvents() # gets the input
+		self.characterAnimationHandler.Update()#update the animation handler
+		self.brain.Update(self)#updates the state
 
 
 class IdleState(BrainStateMachine.IState):
@@ -64,68 +65,61 @@ class IdleState(BrainStateMachine.IState):
 		for event in self.player.PlayerInput:
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_DOWN:
-					print("changeState to MoveState down")
-					self.player.moveState.y_change = 1
+					self.player.moveState.y_change = 1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)
 				
 				if event.key == pygame.K_UP: 
-					print("changeState to MoveState up")
-					self.player.moveState.y_change = -1
+					self.player.moveState.y_change = -1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)				
 				
 				if event.key == pygame.K_RIGHT:
-					print("changeState to MoveState")
-					self.player.moveState.x_change = 1
+					self.player.moveState.x_change = 1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)				
 				
 				if event.key == pygame.K_LEFT: 
-					print("changeState to MoveState")
-					self.player.moveState.x_change = -1
+					self.player.moveState.x_change = -1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)
 					
 					
 class MoveState(BrainStateMachine.IState):
 
 	def __init__(self):
-		print("gets called")
 		self.x_change = 0
 		self.y_change = 0
 	
 	def Update(self,player):
 		self.player = player
-		print(self.player.PlayerInput)
 
 		for event in self.player.PlayerInput:
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_DOWN:
 					if self.y_change != 1:
-						self.y_change += 1
+						self.y_change += 1 * self.player.movementSpeed
 				if event.key == pygame.K_RIGHT:
 					if self.x_change != 1:
-						self.x_change += 1
+						self.x_change += 1 * self.player.movementSpeed
 				if event.key == pygame.K_LEFT:
 					if self.x_change != -1:	
-						self.x_change += -1
+						self.x_change += -1 * self.player.movementSpeed
 				if event.key == pygame.K_UP:
 					if self.y_change != -1:
-						self.y_change += -1
+						self.y_change += -1 * self.player.movementSpeed
 
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_DOWN:
 					if self.y_change != -1:
-						self.y_change += -1
+						self.y_change += -1 * self.player.movementSpeed
 				if event.key == pygame.K_RIGHT:
 					if self.x_change != -1:
-						self.x_change += -1
+						self.x_change += -1 * self.player.movementSpeed
 				if event.key == pygame.K_LEFT:
 					if self.x_change != 1:
-						self.x_change += 1
+						self.x_change += 1 * self.player.movementSpeed
 				if event.key == pygame.K_UP:
 					if self.y_change != 1:
-						self.y_change += 1
+						self.y_change += 1 * self.player.movementSpeed
 		
 		if ((self.y_change == 0) and (self.x_change == 0)):
-			print("Change to nonState")
 			self.player.brain.Change(self.player.nonState)
 		else:
 			self.player.set_x(self.x_change)

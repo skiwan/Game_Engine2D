@@ -18,23 +18,24 @@ class ScreenState(StateMachine.IState):
     """We want to get a player and handle his animations"""
 
     def __init__(self):
-        self.player = PlayerClass.Player();
-        self.mainCamera = Camera.camera();
+        self.player = PlayerClass.Player()
+        self.mainCamera = Camera.camera()
         self.mainCamera.setCamera(self.player)
-        self.MapRenderer = MapRender.mapRender(40,800,600);
-        self.MapRenderer.changeLevel(Level1);
+        self.MapRenderer = MapRender.mapRender(40,800,600)
+        self.MapRenderer.changeLevel(Level1)
  
         #initate player with default values also gives us the main camera and maprender
 
     def Update(self):
-        self.player.Update();
+        self.mainCamera.update(800,600,self.MapRenderer.currentLevel.Layers[1],40)
+        self.player.Update()
         #call update function
         return
 
     def Render(self,destinationScreen):
-        destinationScreen.fill(BLACK);
+        destinationScreen.fill(BLACK)
         self.MapRenderer.renderLayer(self.mainCamera,1,destinationScreen)
-        self.player.Render(destinationScreen);
-        pygame.display.update();
+        self.player.Render(destinationScreen,self.mainCamera)
+        pygame.display.update()
         #render display black and then render the first layer, after that show player
         return

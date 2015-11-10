@@ -13,7 +13,9 @@ class camera(object):
 
     def update(self,width,height,level,tilesize):
         # this will center the target if possible
-        if (target.x > 0 + int(0.5*width)) and (target.x < ((level.x * tilesize) - (int(0.5*width)))):
-            self.x = target.x;
-        if (target.y > 0 + int(0.5*height)) and (target.y < ((level.y * tilesize) - (int(0.5*height)))):
-            self.y = target.y;
+        if ((self.target.x > 0 + int(0.5*width)) and (self.target.x < ((level.x * tilesize) - (int(0.5*(width+tilesize)))-19))):
+            self.x = (self.target.x) - int(0.5*width);
+        if ((self.target.y > 0 + int(0.5*height)) and (self.target.y < ((level.y * tilesize) - (int(0.5*(height-tilesize)))-19))):
+                self.y = ((self.target.y) - int(0.5*height))
+
+        
