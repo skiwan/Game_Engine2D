@@ -16,15 +16,15 @@ class AnimationHandler(object):
     he animationclass should be updated so we can call an onstart and onend animation trigger"""
 
     def __init__(self,animation,width,height,spriteSheet):
-        self.width = width;
-        self.height = height;
-        self.animation = animation; #row in which the actual animation is
-        self.spriteSheet = spriteSheet; 
-        self.frame = 0; #current Frame
-        self.image = ""; #Image which will be returned
-        self.currentTime = 0; #needed for FPS
-        self.frames = 3; #frames of the current Animation
-        self.framesPerSecond = 2; #Speed of the Animation
+        self.width = width
+        self.height = height
+        self.animation = animation #row in which the actual animation is
+        self.spriteSheet = spriteSheet 
+        self.frame = 0 #current Frame
+        self.image = "" #Image which will be returned
+        self.currentTime = 0 #needed for FPS
+        self.frames = 3 #frames of the current Animation
+        self.framesPerSecond = 2 #Speed of the Animation
 
     def Update(self):
         
@@ -36,26 +36,26 @@ class AnimationHandler(object):
         # calculate picture when a frame shall be changed
         if self.currentTime % (FPS//self.framesPerSecond) == 0:
             if self.frame < self.frames: #ATTENTION!!! frames == actual number of images of the animation -1 (reason: counting starts at 0)
-                self.frame += 1;
-                self.currentTime = 0;
+                self.frame += 1
+                self.currentTime = 0
             else:
-                self.frame = 0;
-                self.currentTime = 0;
-        self.currentTime += 1;
+                self.frame = 0
+                self.currentTime = 0
+        self.currentTime += 1
 
 
        
     #changes the current animation
     def changeAnimation(self,animation):
         # change animation based stuff
-        self.animation = animation.animation;
-        self.width = animation.width;
-        self.height = animation.height;
-        self.frames = animation.frames;
-        self.framesPerSecond = animation.framesPerSecond;
+        self.animation = animation.animation
+        self.width = animation.width
+        self.height = animation.height
+        self.frames = animation.frames
+        self.framesPerSecond = animation.framesPerSecond
 
 
     def ImageReturn(self):
         #return the fuck
-        return self.image;
+        return self.image
 

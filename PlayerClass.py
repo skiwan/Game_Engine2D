@@ -66,6 +66,8 @@ class IdleState(BrainStateMachine.IState):
 		self.player = player
 		
 		for event in self.player.PlayerInput:
+
+			""" Later changes this so it only changes the state """
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_DOWN:
 					self.player.moveState.y_change = 1 * self.player.movementSpeed
@@ -102,12 +104,15 @@ class MoveState(BrainStateMachine.IState):
 				if event.key == pygame.K_DOWN:
 					if self.y_change != 1:
 						self.y_change += 1 * self.player.movementSpeed
+				
 				if event.key == pygame.K_RIGHT:
 					if self.x_change != 1:
 						self.x_change += 1 * self.player.movementSpeed
+				
 				if event.key == pygame.K_LEFT:
 					if self.x_change != -1:	
 						self.x_change += -1 * self.player.movementSpeed
+				
 				if event.key == pygame.K_UP:
 					if self.y_change != -1:
 						self.y_change += -1 * self.player.movementSpeed
@@ -116,15 +121,31 @@ class MoveState(BrainStateMachine.IState):
 				if event.key == pygame.K_DOWN:
 					if self.y_change != -1:
 						self.y_change += -1 * self.player.movementSpeed
+				
 				if event.key == pygame.K_RIGHT:
 					if self.x_change != -1:
 						self.x_change += -1 * self.player.movementSpeed
+				
 				if event.key == pygame.K_LEFT:
 					if self.x_change != 1:
 						self.x_change += 1 * self.player.movementSpeed
+				
 				if event.key == pygame.K_UP:
 					if self.y_change != 1:
 						self.y_change += 1 * self.player.movementSpeed
+
+
+		""" change the animation based on the velocity, left and right after up and down"""
+		if self.y_change == 1 * self.player.movementSpeed:
+			self.player.characterAnimationHandler.changeAnimation(self.player.MoveUpAnimation)		
+		elif self.y_change != 0:
+			self.player.characterAnimationHandler.changeAnimation(self.player.MoveDownAnimation)
+
+		if self.x_change == 1 * self.player.movementSpeed:
+			self.player.characterAnimationHandler.changeAnimation(self.player.MoveRightAnimation)
+		elif self.x_change != 0:
+			self.player.characterAnimationHandler.changeAnimation(self.player.MoveLeftAnimation)
+
 		
 		if ((self.y_change == 0) and (self.x_change == 0)):
 			self.player.brain.Change(self.player.nonState)

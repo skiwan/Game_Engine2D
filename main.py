@@ -25,10 +25,10 @@ def main():
     StateM = StateMachine.StateMachine()
     Screen = ScreenState.ScreenState()
     gameExit = False
-    StateM.Change(Screen);
+    StateM.Change(Screen)
     while not gameExit:
         StateM.Update()
         StateM.Render(gameDisplay)
         clock.tick(FPS)
 
-main ();
+main ()

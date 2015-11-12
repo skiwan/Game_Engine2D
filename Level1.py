@@ -2,10 +2,10 @@ Layers = [""]
 
 class layer(object):
 	def __init__(self,tileMap,lmap,x,y):
-		self.tileMap = tileMap;
-		self.lmap = lmap;
-		self.x = x;
-		self.y = y;
+		self.tileMap = tileMap
+		self.lmap = lmap
+		self.x = x
+		self.y = y
 		
 
 layer1 = layer("Layer1TileMap.png",

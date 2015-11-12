@@ -11,9 +11,9 @@ class animation(object):
     like a notifier to the state machine aka brain"""
 
     def __init__(self,animation,width,height,frames,speed):
-        self.animation = animation;
-        self.width = width;
-        self.height = height;
-        self.frames = frames; #ATTENTION!!! frames == actual number of images of the animation -1 (reason: counting starts at 0)
-        self.framesPerSecond = speed;
+        self.animation = animation
+        self.width = width
+        self.height = height
+        self.frames = frames #ATTENTION!!! frames == actual number of images of the animation -1 (reason: counting starts at 0)
+        self.framesPerSecond = speed
 
