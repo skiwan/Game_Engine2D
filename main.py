@@ -6,6 +6,7 @@ import StateMachine
 import ScreenState
 #initates some stuff
 pygame.init()
+pygame.key.set_repeat(1,30)
 
 FPS = 30
 

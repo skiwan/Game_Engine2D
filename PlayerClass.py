@@ -70,22 +70,18 @@ class IdleState(BrainStateMachine.IState):
 			""" Later changes this so it only changes the state """
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_DOWN:
-					self.player.moveState.y_change = 1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)
 					self.player.characterAnimationHandler.changeAnimation(self.player.MoveDownAnimation)
 				
 				if event.key == pygame.K_UP: 
-					self.player.moveState.y_change = -1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)	
 					self.player.characterAnimationHandler.changeAnimation(self.player.MoveUpAnimation)			
 				
 				if event.key == pygame.K_RIGHT:
-					self.player.moveState.x_change = 1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)
 					self.player.characterAnimationHandler.changeAnimation(self.player.MoveRightAnimation)				
 				
 				if event.key == pygame.K_LEFT: 
-					self.player.moveState.x_change = -1 * self.player.movementSpeed
 					self.player.brain.Change(self.player.moveState)
 					self.player.characterAnimationHandler.changeAnimation(self.player.MoveLeftAnimation)
 					
@@ -98,41 +94,42 @@ class MoveState(BrainStateMachine.IState):
 	
 	def Update(self,player):
 		self.player = player
-
+		print(self.player.PlayerInput)
 		for event in self.player.PlayerInput:
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_DOWN:
-					if self.y_change != 1:
+					if (self.y_change == 0) or (self.y_change == -1*self.player.movementSpeed):
 						self.y_change += 1 * self.player.movementSpeed
 				
 				if event.key == pygame.K_RIGHT:
-					if self.x_change != 1:
+					if (self.x_change == 0) or (self.x_change == -1* self.player.movementSpeed):
 						self.x_change += 1 * self.player.movementSpeed
 				
 				if event.key == pygame.K_LEFT:
-					if self.x_change != -1:	
+					if (self.x_change == 0) or (self.x_change == 1* self.player.movementSpeed):	
 						self.x_change += -1 * self.player.movementSpeed
 				
 				if event.key == pygame.K_UP:
-					if self.y_change != -1:
+					if (self.y_change == 0) or (self.y_change == 1* self.player.movementSpeed):
 						self.y_change += -1 * self.player.movementSpeed
 
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_DOWN:
-					if self.y_change != -1:
+					if(self.y_change == 1* self.player.movementSpeed):
 						self.y_change += -1 * self.player.movementSpeed
 				
 				if event.key == pygame.K_RIGHT:
-					if self.x_change != -1:
+					if(self.x_change == 1* self.player.movementSpeed):
 						self.x_change += -1 * self.player.movementSpeed
 				
 				if event.key == pygame.K_LEFT:
-					if self.x_change != 1:
+					if(self.x_change == -1* self.player.movementSpeed):
 						self.x_change += 1 * self.player.movementSpeed
 				
 				if event.key == pygame.K_UP:
-					if self.y_change != 1:
+					if(self.y_change == -1* self.player.movementSpeed):
 						self.y_change += 1 * self.player.movementSpeed
+
 
 
 		""" change the animation based on the velocity, left and right after up and down"""
