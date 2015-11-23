@@ -18,7 +18,10 @@ class mapRender(object):
         self.currentLevel = ""#current level
         self.todisplayableCollums = 0 #needed to display one more row than the screen usually can fit
         self.todisplayableRows = 0
-
+        self.level = ""
+        self.level_x = 0
+        self.level_y = 0
+        self.image = ""
     def changeLevel(self,Level):#changes the current Level which shall be displayed
         self.currentLevel = Level
 
