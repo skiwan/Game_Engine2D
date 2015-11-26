@@ -25,6 +25,9 @@ class Player(Character.Character):
 		self.PlayerInputHandler = InputHandler.Input_Handler()
 		self.PlayerInput = self.PlayerInputHandler.returnEvents()
 
+		self.currentLevel = ""
+		self.tile = 0
+
 		#animations of this Character
 		self.IdleAnimation = AnimationDataClass.animation(0,40,40,3,2)
 		self.MoveLeftAnimation = AnimationDataClass.animation(1,40,40,4,3)
@@ -53,12 +56,13 @@ class Player(Character.Character):
 		self.characterImage = self.characterAnimationHandler.ImageReturn()#get the image of the current animation
 		destinationScreen.blit(self.characterImage , (self.x-camera.x,self.y-camera.y))#buffer it
 
-	def Update(self):
+	def Update(self,Level):
 		self.PlayerInputHandler.Update()
 		self.PlayerInput = self.PlayerInputHandler.returnEvents() # gets the input
 		self.characterAnimationHandler.Update()#update the animation handler
 		self.brain.Update(self)#updates the state
-
+		self.currentLevel = Level
+		self.tile = (int(self.x / 40) + int(self.y / 40 *self.currentLevel.Layers[1].x))
 
 class IdleState(BrainStateMachine.IState):
 
@@ -92,6 +96,57 @@ class MoveState(BrainStateMachine.IState):
 		self.x_change = 0
 		self.y_change = 0
 	
+	def CollideWithWall(self,x_change,y_change,player):
+		""" Used to check for colliding with the collission Layer"""
+		
+		if (x_change > 0):
+			if(player.y % 40 == 0):
+				if (player.currentLevel.Layers[1].lmap[player.tile+1] == 0):
+					return True
+			else:
+				if(player.currentLevel.Layers[1].lmap[player.tile+1] == 0 ):
+					return True
+				if (player.currentLevel.Layers[1].lmap[player.tile+1+(player.currentLevel.Layers[1].y)] == 0):
+					return True
+		
+		#ueberarbeiten
+		elif (x_change < 0):
+			if(player.y % 40 == 0):
+				if (player.currentLevel.Layers[1].lmap[player.tile-1] == 0):
+					return True
+			else:
+				if(player.currentLevel.Layers[1].lmap[player.tile-1] == 0 ):
+					return True
+				if (player.currentLevel.Layers[1].lmap[player.tile-1+(player.currentLevel.Layers[1].y)] == 0):
+					return True
+		
+		
+		elif (y_change > 0):
+			if(player.x % 40 == 0):
+				if (player.currentLevel.Layers[1].lmap[player.tile+(player.currentLevel.Layers[1].x)] == 0):
+					return True
+			else:
+				if(player.currentLevel.Layers[1].lmap[player.tile+(player.currentLevel.Layers[1].x)] == 0 ):
+					return True	
+				if (player.currentLevel.Layers[1].lmap[player.tile+(1+(player.currentLevel.Layers[1].x))] == 0):
+					return True
+
+		#ueberarbeiten
+		elif (y_change < 0):
+			if(player.x % 40 == 0):
+				if (player.currentLevel.Layers[1].lmap[player.tile-(player.currentLevel.Layers[1].x)] == 0):
+					return True
+			else:
+				if(player.currentLevel.Layers[1].lmap[player.tile-(player.currentLevel.Layers[1].x)] == 0 ):
+					return True	
+				if (player.currentLevel.Layers[1].lmap[player.tile-(1+(player.currentLevel.Layers[1].x))] == 0):
+					return True
+
+
+		#will only be triggered if x_change and y_change both are zero
+		else:
+			return True
+	
 	def Update(self,player):
 		self.player = player
 		print(self.player.PlayerInput)
@@ -100,18 +155,20 @@ class MoveState(BrainStateMachine.IState):
 				if event.key == pygame.K_DOWN:
 					if (self.y_change == 0) or (self.y_change == -1*self.player.movementSpeed):
 						self.y_change += 1 * self.player.movementSpeed
-				
+
 				if event.key == pygame.K_RIGHT:
 					if (self.x_change == 0) or (self.x_change == -1* self.player.movementSpeed):
 						self.x_change += 1 * self.player.movementSpeed
-				
+
 				if event.key == pygame.K_LEFT:
 					if (self.x_change == 0) or (self.x_change == 1* self.player.movementSpeed):	
 						self.x_change += -1 * self.player.movementSpeed
+
 				
 				if event.key == pygame.K_UP:
 					if (self.y_change == 0) or (self.y_change == 1* self.player.movementSpeed):
 						self.y_change += -1 * self.player.movementSpeed
+					
 
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_DOWN:
@@ -130,6 +187,22 @@ class MoveState(BrainStateMachine.IState):
 					if(self.y_change == -1* self.player.movementSpeed):
 						self.y_change += 1 * self.player.movementSpeed
 
+		""" Test if player is within boundries"""
+		if self.player.y  >= ((self.player.currentLevel.Layers[1].y * 40) - 40) and self.y_change > 0 :
+			self.y_change = 0
+		if self.player.x  >= ((self.player.currentLevel.Layers[1].x *40)-40) and self.x_change > 0:
+				self.x_change = 0
+		if  self.player.x  <= 0 and self.x_change < 0:
+			self.x_change = 0
+		if self.player.y  <= 0 and self.y_change < 0:
+			self.y_change =0
+
+		#check if collide with bottom or top
+		if(self.CollideWithWall(0, self.y_change, self.player)):
+			self.y_change = 0
+		#check if collide with left or right
+		if(self.CollideWithWall(self.x_change, 0, self.player)):
+			self.x_change = 0
 
 
 		""" change the animation based on the velocity, left and right after up and down"""

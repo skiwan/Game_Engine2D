@@ -28,7 +28,7 @@ class ScreenState(StateMachine.IState):
 
     def Update(self):
         self.mainCamera.update(800,600,self.MapRenderer.currentLevel.Layers[1],40)
-        self.player.Update()
+        self.player.Update(self.MapRenderer.currentLevel)
         #calculates on which tile the player is right now
         #print(str(int(self.player.x / 40) + int(self.player.y / 40 * self.MapRenderer.level_x)))
         
