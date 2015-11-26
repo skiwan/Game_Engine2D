@@ -96,56 +96,6 @@ class MoveState(BrainStateMachine.IState):
 		self.x_change = 0
 		self.y_change = 0
 	
-	def CollideWithWall(self,x_change,y_change,player):
-		""" Used to check for colliding with the collission Layer"""
-		
-		if (x_change > 0):
-			if(player.y % 40 == 0):
-				if (player.currentLevel.Layers[1].lmap[player.tile+1] == 0):
-					return True
-			else:
-				if(player.currentLevel.Layers[1].lmap[player.tile+1] == 0 ):
-					return True
-				if (player.currentLevel.Layers[1].lmap[player.tile+1+(player.currentLevel.Layers[1].y)] == 0):
-					return True
-		
-		#ueberarbeiten
-		elif (x_change < 0):
-			if(player.y % 40 == 0):
-				if (player.currentLevel.Layers[1].lmap[player.tile-1] == 0):
-					return True
-			else:
-				if(player.currentLevel.Layers[1].lmap[player.tile-1] == 0 ):
-					return True
-				if (player.currentLevel.Layers[1].lmap[player.tile-1+(player.currentLevel.Layers[1].y)] == 0):
-					return True
-		
-		
-		elif (y_change > 0):
-			if(player.x % 40 == 0):
-				if (player.currentLevel.Layers[1].lmap[player.tile+(player.currentLevel.Layers[1].x)] == 0):
-					return True
-			else:
-				if(player.currentLevel.Layers[1].lmap[player.tile+(player.currentLevel.Layers[1].x)] == 0 ):
-					return True	
-				if (player.currentLevel.Layers[1].lmap[player.tile+(1+(player.currentLevel.Layers[1].x))] == 0):
-					return True
-
-		#ueberarbeiten
-		elif (y_change < 0):
-			if(player.x % 40 == 0):
-				if (player.currentLevel.Layers[1].lmap[player.tile-(player.currentLevel.Layers[1].x)] == 0):
-					return True
-			else:
-				if(player.currentLevel.Layers[1].lmap[player.tile-(player.currentLevel.Layers[1].x)] == 0 ):
-					return True	
-				if (player.currentLevel.Layers[1].lmap[player.tile-(1+(player.currentLevel.Layers[1].x))] == 0):
-					return True
-
-
-		#will only be triggered if x_change and y_change both are zero
-		else:
-			return True
 	
 	def Update(self,player):
 		self.player = player
@@ -226,5 +176,62 @@ class MoveState(BrainStateMachine.IState):
 
 			#awesome
 
+	def CollideWithWall(self,x_change,y_change,player):
+		""" Used to check for colliding with the collission Layer"""
+		
+		if (x_change > 0):
+			if(player.y % 40 == 0):
+				if (player.currentLevel.Layers[1].lmap[player.tile+1] == 0):
+					return True
+			else:
+				if(player.currentLevel.Layers[1].lmap[player.tile+1] == 0 ):
+					return True
+				if (player.currentLevel.Layers[1].lmap[player.tile+1+(player.currentLevel.Layers[1].y)] == 0):
+					return True
+		
+		
+		elif (x_change < 0):
+			if(player.y % 40 == 0):
+				if (player.x % 40 == 0):
+					if (player.currentLevel.Layers[1].lmap[player.tile-1] == 0):
+						return True
+
+			else:
+				if(player.x % 40 == 0):
+					if(player.currentLevel.Layers[1].lmap[player.tile-1] == 0 ):
+						return True
+					if (player.currentLevel.Layers[1].lmap[player.tile-1+(player.currentLevel.Layers[1].y)] == 0):
+						return True
+				
+
+		
+		
+		elif (y_change > 0):
+			if(player.x % 40 == 0):
+				if (player.currentLevel.Layers[1].lmap[player.tile+(player.currentLevel.Layers[1].x)] == 0):
+					return True
+			else:
+				if(player.currentLevel.Layers[1].lmap[player.tile+(player.currentLevel.Layers[1].x)] == 0 ):
+					return True	
+				if (player.currentLevel.Layers[1].lmap[player.tile+(1+(player.currentLevel.Layers[1].x))] == 0):
+					return True
+
+		#ueberarbeiten
+		elif (y_change < 0):
+			if(player.x % 40 == 0):
+				if (player.y % 40 == 0):
+					if (player.currentLevel.Layers[1].lmap[player.tile-(player.currentLevel.Layers[1].x)] == 0):
+						return True
+			else:
+				if (player.y % 40 == 0):
+					if(player.currentLevel.Layers[1].lmap[player.tile-(player.currentLevel.Layers[1].x)] == 0 ):
+						return True	
+					if (player.currentLevel.Layers[1].lmap[player.tile+1-(player.currentLevel.Layers[1].x)] == 0):
+						return True
+
+
+		#will only be triggered if x_change and y_change both are zero
+		else:
+			return True
 
 
