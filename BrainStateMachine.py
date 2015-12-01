@@ -20,8 +20,8 @@ class BrainStateMachine(object):
         self.CurrentState = EmptyState()
 
 #will run the update method of the current state
-    def Update(self,player):
-        self.CurrentState.Update(player)
+    def update(self,player):
+        self.CurrentState.update(player)
 
     #will change the current state
     def Change(self,stateName):
@@ -32,7 +32,7 @@ class BrainStateMachine(object):
 class IState(object):
     #this is the Parent of all our other states
     
-    def Update(self):
+    def update(self):
         return
         #will do the game logic
     def OnEnter(self):
@@ -43,7 +43,7 @@ class IState(object):
         return
 
 class EmptyState (IState):
-    def Update(self):
+    def update(self):
         #epmty state doenst uodate somethign
         return
     def OnEnter(self):

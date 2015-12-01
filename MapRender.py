@@ -25,10 +25,13 @@ class mapRender(object):
         self.level_x = 0
         self.level_y = 0
         self.image = ""
-    def changeLevel(self,Level):#changes the current Level which shall be displayed
+    """ Changes the current Level """
+    def changeLevel(self,Level):
+    	#changes the current Level which shall be displayed
         self.currentLevel = Level
-
-    def renderLayer(self,camera,layer,destinationScreen):#renders a specific layer of the Level with the help of the maincamera
+    """ renders a specific Layer"""
+    def renderLayer(self,camera,layer,destinationScreen):
+    	#renders a specific layer of the Level with the help of the maincamera
         self.tileMap = pygame.image.load(self.currentLevel.Layers[layer].tileMap)
         self.levelLayer1Map = self.currentLevel.Layers[layer].lmap
         self.level_x = self.currentLevel.Layers[layer].x

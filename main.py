@@ -28,8 +28,8 @@ def main():
     gameExit = False
     StateM.Change(MapScreen)
     while not gameExit:
-        StateM.Update()
-        StateM.Render(gameDisplay)
+        StateM.update()
+        StateM.render(gameDisplay)
         clock.tick(FPS)
 #run the main loop
 main ()

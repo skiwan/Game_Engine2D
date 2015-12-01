@@ -5,7 +5,7 @@ class Input_Handler(object):
     def __init__(self):
         self.GameEvents = []
 
-    def Update(self):
+    def update(self):
         self.GameEvents = []
         for event in pygame.event.get():
             self.GameEvents.append(event)

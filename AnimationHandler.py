@@ -26,7 +26,7 @@ class AnimationHandler(object):
         self.frames = 3 #frames of the current Animation
         self.framesPerSecond = 2 #Speed of the Animation
 
-    def Update(self):
+    def update(self):
         
         #get the Image on the Spritesheet
         self.spriteSheet.set_clip(pygame.Rect(self.frame*self.width,self.animation*self.height,self.width,self.height))

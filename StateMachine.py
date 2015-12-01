@@ -20,46 +20,46 @@ class StateMachine(object):
         self.CurrentState = EmptyState()
 
 #will run the update method of the current state
-    def Update(self):
-        self.CurrentState.Update()
+    def update(self):
+        self.CurrentState.update()
 
 #will run the render method of the current state
-    def Render(self,destinationScreen):
-        self.CurrentState.Render(destinationScreen)
+    def render(self,destinationScreen):
+        self.CurrentState.render(destinationScreen)
 
     #will change the current state
     def Change(self,stateName):
-        self.CurrentState.OnExit()
+        self.CurrentState.onExit()
         self.CurrentState = stateName
-        self.CurrentState.OnEnter()
+        self.CurrentState.onEnter()
 
 class IState(object):
     #this is the Parent of all our other states
     
-    def Update(self):
+    def update(self):
         return
         #will do the game logic
-    def Render(self,destinationScreen):
+    def render(self,destinationScreen):
         #will do all the screen display
         return
-    def OnEnter(self):
+    def onEnter(self):
         #will do something when we go into that state
         return
-    def OnExit(self):
+    def onExit(self):
         #will do something when we go out of that state
         return
 
 class EmptyState (IState):
-    def Update(self):
+    def update(self):
         #epmty state doenst uodate somethign
         return
-    def Render(self):
+    def render(self):
         #empts state doenst render anything
         return
-    def OnEnter(self):
+    def onEnter(self):
         #will do something when we go into that state
         return
-    def OnExit(self):
+    def onExit(self):
         #will do something when we go out of that state
         return
 

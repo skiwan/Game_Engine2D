@@ -25,6 +25,7 @@ class Player(Character.Character):
 		self.PlayerInputHandler = InputHandler.Input_Handler()
 		self.PlayerInput = self.PlayerInputHandler.returnEvents()
 
+		#level for collision detection with the 0layer and the current tile we are on
 		self.currentLevel = ""
 		self.tile = 0
 
@@ -34,6 +35,7 @@ class Player(Character.Character):
 		self.MoveRightAnimation = AnimationDataClass.animation(2,40,40,4,3)
 		self.MoveUpAnimation = AnimationDataClass.animation(3,40,40,4,3)
 		self.MoveDownAnimation = AnimationDataClass.animation(4,40,40,4,3)
+		
 		#States of the chracter
 		self.nonState = IdleState()
 		self.moveState = MoveState()
@@ -43,7 +45,7 @@ class Player(Character.Character):
 		self.brain.Change(self.nonState)
 
 
-		self.characterAnimationHandler.Update()#called to get the first image needed		
+		self.characterAnimationHandler.update()#called to get the first image needed		
 		self.characterImage=self.characterAnimationHandler.ImageReturn()
 
 	def set_y(self,wert):
@@ -52,21 +54,21 @@ class Player(Character.Character):
 	def set_x(self,wert):
 		self.x += wert
 
-	def Render(self,destinationScreen,camera):
+	def render(self,destinationScreen,camera):
 		self.characterImage = self.characterAnimationHandler.ImageReturn()#get the image of the current animation
 		destinationScreen.blit(self.characterImage , (self.x-camera.x,self.y-camera.y))#buffer it
 
-	def Update(self,Level):
-		self.PlayerInputHandler.Update()
+	def update(self,Level):
+		self.PlayerInputHandler.update()
 		self.PlayerInput = self.PlayerInputHandler.returnEvents() # gets the input
-		self.characterAnimationHandler.Update()#update the animation handler
-		self.brain.Update(self)#updates the state
+		self.characterAnimationHandler.update()#update the animation handler
+		self.brain.update(self)#updates the state
 		self.currentLevel = Level
 		self.tile = (int(self.x / 40) + int(self.y / 40 *self.currentLevel.Layers[1].x))
 
 class IdleState(BrainStateMachine.IState):
 
-	def Update(self,player):
+	def update(self,player):
 		self.player = player
 		
 		for event in self.player.PlayerInput:
@@ -97,7 +99,7 @@ class MoveState(BrainStateMachine.IState):
 		self.y_change = 0
 	
 	
-	def Update(self,player):
+	def update(self,player):
 		self.player = player
 		print(self.player.PlayerInput)
 		for event in self.player.PlayerInput:
