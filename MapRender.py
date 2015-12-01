@@ -18,7 +18,10 @@ class mapRender(object):
         self.currentLevel = ""#current level
         self.todisplayableCollums = 0 #needed to display one more row than the screen usually can fit
         self.todisplayableRows = 0
-        self.level = ""
+       
+       #define all the layers
+        self.levelLayer1Map = ""
+       #define the base stats of the map
         self.level_x = 0
         self.level_y = 0
         self.image = ""
@@ -27,7 +30,7 @@ class mapRender(object):
 
     def renderLayer(self,camera,layer,destinationScreen):#renders a specific layer of the Level with the help of the maincamera
         self.tileMap = pygame.image.load(self.currentLevel.Layers[layer].tileMap)
-        self.level = self.currentLevel.Layers[layer].lmap
+        self.levelLayer1Map = self.currentLevel.Layers[layer].lmap
         self.level_x = self.currentLevel.Layers[layer].x
         self.level_y = self.currentLevel.Layers[layer].y
         self.image = ""
@@ -78,7 +81,7 @@ class mapRender(object):
                 #get the screen of the current tile
 
 
-                self.tileMap.set_clip(pygame.Rect((self.level[self.displayedTile]%self.tilemapWidth)*self.tilesize,(self.level[self.displayedTile] // self.tilemapWidth)*self.tilesize,self.tilesize,self.tilesize))
+                self.tileMap.set_clip(pygame.Rect((self.levelLayer1Map[self.displayedTile]%self.tilemapWidth)*self.tilesize,(self.levelLayer1Map[self.displayedTile] // self.tilemapWidth)*self.tilesize,self.tilesize,self.tilesize))
                 self.image = self.tileMap.subsurface(self.tileMap.get_clip())
                 destinationScreen.blit(self.image , ((self.x*self.tilesize-(self.camera_x%40)), (self.y*self.tilesize-(self.camera_y%40))))
                 self.x +=1
