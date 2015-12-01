@@ -6,7 +6,7 @@ import StateMachine
 import ScreenState
 #initates some stuff
 pygame.init()
-pygame.key.set_repeat(1,30)
+pygame.key.set_repeat(1,1)
 
 FPS = 30
 
@@ -21,15 +21,15 @@ clock = pygame.time.Clock()
 #saves the events
 
 
-
+""" Initilazing the main game Loop with all States like Menu e.g. """
 def main():
     StateM = StateMachine.StateMachine()
-    Screen = ScreenState.ScreenState()
+    MapScreen = ScreenState.ScreenState()
     gameExit = False
-    StateM.Change(Screen)
+    StateM.Change(MapScreen)
     while not gameExit:
         StateM.Update()
         StateM.Render(gameDisplay)
         clock.tick(FPS)
-
+#run the main loop
 main ()

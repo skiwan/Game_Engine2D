@@ -71,7 +71,7 @@ class IdleState(BrainStateMachine.IState):
 		
 		for event in self.player.PlayerInput:
 
-			""" Later changes this so it only changes the state """
+			""" Changes the States given on the Input """
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_DOWN:
 					self.player.brain.Change(self.player.moveState)
@@ -146,7 +146,6 @@ class MoveState(BrainStateMachine.IState):
 			self.x_change = 0
 		if self.player.y  <= 0 and self.y_change < 0:
 			self.y_change =0
-
 		#check if collide with bottom or top
 		if(self.CollideWithWall(0, self.y_change, self.player)):
 			self.y_change = 0
@@ -202,8 +201,6 @@ class MoveState(BrainStateMachine.IState):
 						return True
 					if (player.currentLevel.Layers[1].lmap[player.tile-1+(player.currentLevel.Layers[1].y)] == 0):
 						return True
-				
-
 		
 		
 		elif (y_change > 0):
@@ -216,7 +213,7 @@ class MoveState(BrainStateMachine.IState):
 				if (player.currentLevel.Layers[1].lmap[player.tile+(1+(player.currentLevel.Layers[1].x))] == 0):
 					return True
 
-		#ueberarbeiten
+		
 		elif (y_change < 0):
 			if(player.x % 40 == 0):
 				if (player.y % 40 == 0):
