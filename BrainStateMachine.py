@@ -11,6 +11,7 @@ RED = (255,0,0)
 WHITE = (255,255,255)
 BLUE = (0,255,255)
 
+""" This is the State Machine for AI handling. States will be defined in the actual Characterclass """
 class BrainStateMachine(object):
 
 #we will create States wich stand for every screen we need

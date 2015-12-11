@@ -12,7 +12,7 @@ BLUE = (0,255,255)
 
 class Character(object):
     """ This is the Character Class which is the Parent of every
-    CharacterBasedthing in our world. Here we store Stats that everyone needs and we will implement the brain here """
+    Character based thing in our world. Here we store Stats that everyone needs and we will implement the brain here """
 
     def __init__(self):
         self.spriteSheet = pygame.image.load("charspritesheet.png") 

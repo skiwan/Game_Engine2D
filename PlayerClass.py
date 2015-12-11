@@ -54,10 +54,12 @@ class Player(Character.Character):
 	def set_x(self,wert):
 		self.x += wert
 
+	""" Will display the Character """
 	def render(self,destinationScreen,camera):
 		self.characterImage = self.characterAnimationHandler.ImageReturn()#get the image of the current animation
 		destinationScreen.blit(self.characterImage , (self.x-camera.x,self.y-camera.y))#buffer it
 
+	"""updates the entire player, needs to be called every frame"""
 	def update(self,Level):
 		self.PlayerInputHandler.update()
 		self.PlayerInput = self.PlayerInputHandler.returnEvents() # gets the input
@@ -66,6 +68,7 @@ class Player(Character.Character):
 		self.currentLevel = Level
 		self.tile = (int(self.x / 40) + int(self.y / 40 *self.currentLevel.Layers[1].x))
 
+""" State when the Player doenst move """
 class IdleState(BrainStateMachine.IState):
 
 	def update(self,player):
@@ -91,7 +94,7 @@ class IdleState(BrainStateMachine.IState):
 					self.player.brain.Change(self.player.moveState)
 					self.player.characterAnimationHandler.changeAnimation(self.player.MoveLeftAnimation)
 					
-					
+""" State when the Player moves """					
 class MoveState(BrainStateMachine.IState):
 
 	def __init__(self):
